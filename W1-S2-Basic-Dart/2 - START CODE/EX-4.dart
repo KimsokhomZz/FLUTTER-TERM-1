@@ -6,9 +6,17 @@ void main() {
     'vegetarian': 6.5,
   };
 
-  // Example order
-  const order = ['margherita', 'pepperoni', 'pineapple'];
+  // Example orders
+  const orders = ['margherita', 'pepperoni', 'pineapple'];
 
   // Your code
-  var total = 
+  double totalPrice = 0;
+  for (int i = 0; i < orders.length; i++) {
+    if (pizzaPrices.containsKey(orders[i])) {
+      totalPrice += pizzaPrices[orders[i]]!;
+    } else {
+      print("${orders[i]} is not exists");
+    }
+  }
+  print(totalPrice);
 }
