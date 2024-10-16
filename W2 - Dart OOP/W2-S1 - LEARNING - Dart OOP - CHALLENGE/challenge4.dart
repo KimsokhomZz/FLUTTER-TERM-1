@@ -5,18 +5,9 @@ class Distance {
 
   const Distance(this.cmDuration, this.mDuration, this.kmDuration);
 
-  const Distance.cms(double cms)
-      : this.cmDuration = cms,
-        this.mDuration = 0,
-        this.kmDuration = 0;
-  const Distance.meters(double meters)
-      : this.mDuration = meters,
-        this.cmDuration = 0,
-        this.kmDuration = 0;
-  const Distance.kms(double kms)
-      : this.kmDuration = kms,
-        this.cmDuration = 0,
-        this.mDuration = 0;
+  factory Distance.cms(double cms) => Distance(cms, 0, 0);
+  factory Distance.meters(double meters) => Distance(0, meters, 0);
+  factory Distance.kms(double kms) => Distance(0, 0, kms);
 
   Distance operator +(Distance distance) {
     return Distance.meters(this.toMeter() + distance.toMeter());
@@ -36,9 +27,9 @@ class Distance {
 void main() {
   Distance d1 = Distance.kms(3.4);
   Distance d2 = Distance.meters(1000);
-  print((d1 + d2).cm);
+  print((d1 + d2).km);
 
-  Distance d = Distance(10, 0.2, 4);
+  Distance d = Distance(10, 0.5, 4);
   print(d.mDuration);
   print(d.cm);
 }
