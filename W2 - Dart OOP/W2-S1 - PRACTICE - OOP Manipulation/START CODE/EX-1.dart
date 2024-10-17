@@ -7,61 +7,61 @@ class Address {
   final String city;
   final String zipCode;
 
-  Address({required this.street, required this.city, required this.zipCode});
+  Address(this.street, this.city, this.zipCode);
 }
 
 class Employee {
-  final String name;
-  final double baseSalary;
-  final List<Skill> skills;
-  final Address address;
-  final int yearsOfExperience;
+  // Q1- Add the following new attributes to the Employee class:
+  static const baseSalary = 40000;
 
-  Employee(
-      {required this.name,
-      required this.baseSalary,
-      required this.address,
-      required this.yearsOfExperience,
-      List<Skill>? skills}); //torn hz and need to check
+  final String _name;
+  final List<Skill> _skills;
+  final Address _address;
+  final int _yearsOfExperience;
 
-  Employee.mobilemobileDeveloper({
-    required String name,
-    required double baseSalary,
-    required Address address,
-    required int yearsOfExperience,
-  })  : this.name = name,
-        this.baseSalary = baseSalary,
-        this.address = address,
-        this.yearsOfExperience = yearsOfExperience,
-        skills = [Skill.DART, Skill.FLUTTER];
+  Employee(this._name, this._skills, this._address, this._yearsOfExperience);
 
-  void printDetails() {
-    print(
-        'Employee: $name\n Base Salary: \$${baseSalary}\n Address: $address\n Year of Experience: $yearsOfExperience');
-    print('Skills: ');
-    for (var skill in skills) {
-      print('\t$skill');
+  //Q2 - Update the constructor to initialize the new attributes:
+  Employee.mobileDeveloper(String name, Address address, int yearsOfExperience)
+      : _skills = [Skill.FLUTTER, Skill.DART],
+        _name = name,
+        _address = address,
+        _yearsOfExperience = yearsOfExperience;
+  // Q3 - Make all attributes private and provide getter methods for accessing them:
+  String get name => _name;
+  List<Skill> get skill => _skills;
+  Address get address => _address;
+  int get yearOfExperience => _yearsOfExperience;
+
+  // Q4 – Add a method to compute the salary of the employee (you can create your own rules!):
+  int computeSalary() {
+    int salary = baseSalary + (_yearsOfExperience * 2000);
+    for (int i = 0; i < _skills.length; i++) {
+      switch (_skills[i]) {
+        case Skill.FLUTTER:
+          salary += 5000;
+          break;
+        case Skill.DART:
+          salary += 3000;
+          break;
+        case Skill.OTHER:
+          salary += 1000;
+          break;
+      }
     }
+
+    return salary;
   }
 }
 
 void main() {
-  Address emp1Address =
-      Address(street: 'Norodom Street', city: 'Phnom Penh', zipCode: '120101');
-  var emp1 = Employee(
-      name: 'Sokea',
-      baseSalary: 40000,
-      address: emp1Address,
-      yearsOfExperience: 2,
-      skills: [Skill.OTHER]);
-  emp1.printDetails();
+  Address emp1Address = Address('Norodom Street', 'Phnom Penh', '120101');
+  var emp1 = Employee.mobileDeveloper('Kim', emp1Address, 3);
+  print(emp1.name);
+  print('Kim Salary as a mobile app developer: ${emp1.computeSalary()}');
 
-  Address emp2Address =
-      Address(street: '6A Street', city: 'Phnom Penh', zipCode: '121001');
-  var mobileDevEmp = Employee.mobilemobileDeveloper(
-      name: 'Ronan',
-      baseSalary: 45000,
-      address: emp2Address,
-      yearsOfExperience: 7);
-  mobileDevEmp.printDetails();
+  Address emp2Address = Address('6A Street', 'Phnom Penh', '121001');
+  var emp2 = Employee('Yushi', [Skill.FLUTTER, Skill.OTHER], emp2Address, 5);
+  print(emp2.skill);
+  print('Yushi Salary as a simple employee: ${emp2.computeSalary()}');
 }
