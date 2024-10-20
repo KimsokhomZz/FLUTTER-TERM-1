@@ -1,6 +1,6 @@
 class BankAccount {
-  final int accountId;
-  final String accountOwner;
+  int accountId;
+  String accountOwner;
   double currentBalance = 0;
 
   BankAccount(this.accountId, this.accountOwner);
