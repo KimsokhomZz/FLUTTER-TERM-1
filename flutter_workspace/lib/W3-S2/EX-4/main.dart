@@ -10,33 +10,11 @@ void main() {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomCard(text: 'OOP', color: Colors.blue[100]),
-          CustomCard(text: 'DART', color: Colors.blue[300]),
-          CustomCard(text: 'FLUTTER', color: Colors.blue[100]),
-
-          // Container(
-          //   margin: const EdgeInsets.symmetric(vertical: 5),
-          //   decoration: BoxDecoration(
-          //     color: Colors.blue[600],
-          //     borderRadius: BorderRadius.circular(40),
-          //     gradient: LinearGradient(
-          //       colors: [
-          //         Colors.blue[300]!,
-          //         Colors.blue[800]!,
-          //       ],
-          //     ),
-          //   ),
-          //   child: const Center(
-          //     child: Text(
-          //       'FLUTTER',
-          //       style: TextStyle(
-          //         fontSize: 30,
-          //         color: Colors.white,
-          //         decoration: TextDecoration.none,
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          CustomCard(text: 'OOP', color: Colors.blue[700]),
+          CustomCard(text: 'DART', color: Colors.amber),
+          CustomCard.gradient(
+            text: 'FLUTTER',
+          ),
         ],
       ),
     ),
@@ -44,8 +22,16 @@ void main() {
 }
 
 class CustomCard extends StatelessWidget {
-  const CustomCard({super.key, required this.text, this.color = Colors.blue}): gradientColor = null;
-  const CustomCard.gradient({super.key, required this.text, this.gradientColor = [Colors.blue[300], Colors.blue[800]]}): color = null;
+  const CustomCard({super.key, required this.text, this.color = Colors.blue})
+      : gradientColor = null;
+  const CustomCard.gradient(
+      {super.key,
+      required this.text,
+      this.gradientColor = const [
+        Color.fromARGB(255, 224, 10, 185),
+        Color.fromARGB(255, 0, 0, 0)
+      ]})
+      : color = null;
 
   final String text;
   final Color? color;
@@ -58,8 +44,8 @@ class CustomCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         gradient: gradientColor != null
-        ? LinearGradient(colors: gradientColor!)
-        : null,
+            ? LinearGradient(colors: gradientColor!)
+            : null,
         borderRadius: BorderRadius.circular(40),
       ),
       child: Center(
