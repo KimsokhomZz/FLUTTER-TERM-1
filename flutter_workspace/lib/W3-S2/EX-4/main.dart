@@ -14,6 +14,10 @@ void main() {
           CustomCard(text: 'DART', color: Colors.amber),
           CustomCard.gradient(
             text: 'FLUTTER',
+            gradientColor: [
+              Color.fromARGB(255, 224, 10, 185),
+              Color.fromARGB(255, 0, 0, 0)
+            ],
           ),
         ],
       ),
@@ -28,8 +32,8 @@ class CustomCard extends StatelessWidget {
       {super.key,
       required this.text,
       this.gradientColor = const [
-        Color.fromARGB(255, 224, 10, 185),
-        Color.fromARGB(255, 0, 0, 0)
+        Color(0xff64b5f6),
+        Color(0xff1565c0),
       ]})
       : color = null;
 
