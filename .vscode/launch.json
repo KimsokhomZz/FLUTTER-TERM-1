@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "flutter_workspace",
+            "cwd": "flutter_workspace",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "flutter_workspace (profile mode)",
+            "cwd": "flutter_workspace",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "flutter_workspace (release mode)",
+            "cwd": "flutter_workspace",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "flutter_workspace (Flutter Tests)",
+            "program": "test",
+            "cwd": "flutter_workspace",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

@@ -11,8 +11,8 @@ void main() {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomCard(text: 'OOP', color: Colors.blue[700]),
-          CustomCard(text: 'DART', color: Colors.amber),
-          CustomCard.gradient(
+          const CustomCard(text: 'DART', color: Colors.amber),
+          const CustomCard.gradient(
             text: 'FLUTTER',
             gradientColor: [
               Color.fromARGB(255, 224, 10, 185),
@@ -55,7 +55,7 @@ class CustomCard extends StatelessWidget {
       child: Center(
         child: Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 30,
             color: Colors.white,
             decoration: TextDecoration.none,
