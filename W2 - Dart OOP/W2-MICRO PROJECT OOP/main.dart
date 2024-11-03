@@ -81,22 +81,30 @@ class Order {
 
 class Restaurant {
   final Menu menu = Menu();
-  final List<MenuItem> order = [];
-  final List<TableReservation> reservation = [];
+  final List<Order> orders = [];
+  final List<TableReservation> reservations = [];
   final Map<int, bool> tables = {};
 
   void addMenuItem(MenuItem item) => menu.addItem(item);
-  void createOrder(Customer customer, List<MenuItem> items){
-    //
+  Order createOrder(Customer customer, List<MenuItem> items) {
+    final Order order = Order(orders.length + 1, customer, items);
+    orders.add(order);
+    return order;
   }
-  void reserveTable(Customer customer, int tableNum, DateTime date){
-    //
+
+  TableReservation reserveTable(
+      Customer customer, int tableNum, DateTime date) {
+    final TableReservation reservation = TableReservation(
+        reservations.length + 1, customer, tableNum, date);
+    reservations.add(reservation);
+    return reservation;
   }
-  void checkAvailableTable(int tableNum){
+
+  void checkAvailableTable(int tableNum) {
     //
   }
 }
 
-void main(){
+void main() {
   //
 }
