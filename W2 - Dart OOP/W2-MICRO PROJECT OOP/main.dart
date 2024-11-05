@@ -84,8 +84,8 @@ void main() {
   // restaurant.reserveTable(
   //     tableReservation2); //restaurant do a TableReservaton for customer1
 
-  print("\n");
-  restaurant.displayAllOrders();
+  // print("\n");
+  // restaurant.displayAllOrders();
 
   print("\n");
   restaurant.displayAllReservations();
