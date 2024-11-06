@@ -15,24 +15,32 @@ class _ImageGalleryState extends State<ImageGallery> {
     "assets/images/w4-s2/insect.jpg",
     "assets/images/w4-s2/girl.jpg",
     "assets/images/w4-s2/man.jpg",
+    "assets/images/w4-s2/khun.jpg",
+    "assets/images/w4-s2/chet.jpg",
+    "assets/images/w4-s2/vath.jpg",
+    "assets/images/w4-s2/jruk.jpg",
   ];
 
   //previous img
   void showPreviousImage() {
-    if (_index > 0) {
-      _index--;
-    } else {
-      _index = images.length - 1;
-    }
+    setState(() {
+      if (_index > 0) {
+        _index--;
+      } else {
+        _index = images.length - 1;
+      }
+    });
   }
 
   //next img
   void showNextImage() {
-    if (_index < images.length - 1) {
-      _index++;
-    } else {
-      _index = 0;
-    }
+    setState(() {
+      if (_index < images.length - 1) {
+        _index++;
+      } else {
+        _index = 0;
+      }
+    });
   }
 
   @override
@@ -46,30 +54,20 @@ class _ImageGalleryState extends State<ImageGallery> {
           IconButton(
             icon: const Icon(Icons.navigate_before),
             tooltip: 'Go to the previous image',
-            onPressed: () {
-              setState(() {
-                showPreviousImage();
-              });
-            },
+            onPressed: showPreviousImage,
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 50, 0),
             child: IconButton(
               icon: const Icon(Icons.navigate_next),
               tooltip: 'Go to the next image',
-              onPressed: () {
-                setState(() {
-                  showNextImage();
-                });
-              },
+              onPressed: showNextImage,
             ),
           ),
         ],
       ),
       body: Image.asset(
         images[_index],
-        width: 200,
-        height: 150,
         fit: BoxFit.cover,
       ),
     );
