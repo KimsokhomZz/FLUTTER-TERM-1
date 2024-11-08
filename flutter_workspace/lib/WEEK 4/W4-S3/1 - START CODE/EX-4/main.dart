@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-class ProgreeBar extends StatefulWidget {
-  const ProgreeBar({super.key, required this.progressTitle});
+class ProgressBar extends StatefulWidget {
+  const ProgressBar({super.key, required this.progressTitle});
 
   final String progressTitle;
 
   @override
-  State<ProgreeBar> createState() => _ProgreeBarState();
+  State<ProgressBar> createState() => _ProgreeBarState();
 }
 
-class _ProgreeBarState extends State<ProgreeBar> {
+class _ProgreeBarState extends State<ProgressBar> {
   List<Color> colorList = [
     Colors.green[300]!,
     Colors.green,
@@ -41,7 +41,7 @@ class _ProgreeBarState extends State<ProgreeBar> {
   Color progressColor() {
     if (_progress <= 90) {
       return colorList[0];
-    } else if (_progress > 90 && _progress <= 210) {
+    } else if (_progress <= 210) {
       return colorList[1];
     } else {
       return colorList[2];
@@ -62,7 +62,7 @@ class _ProgreeBarState extends State<ProgreeBar> {
           Text(
             'My Score in ${widget.progressTitle}',
             style: TextStyle(
-              color: Colors.grey[400],
+              color: Colors.lime[700],
               fontWeight: FontWeight.w600,
               height: 1,
               fontSize: 25,
@@ -72,7 +72,7 @@ class _ProgreeBarState extends State<ProgreeBar> {
             height: 8,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
                 icon: const Icon(Icons.remove),
@@ -82,9 +82,6 @@ class _ProgreeBarState extends State<ProgreeBar> {
                   });
                 },
                 tooltip: 'Click to decrease the score',
-              ),
-              const SizedBox(
-                width: 15,
               ),
               IconButton(
                 icon: const Icon(Icons.add),
@@ -105,13 +102,17 @@ class _ProgreeBarState extends State<ProgreeBar> {
             child: LinearPercentIndicator(
               lineHeight: 50,
               percent: _progress / _maxProgess,
-              // backgroundColor: Colors.grey,
               progressColor: progressColor(),
-              animation: false,
+              backgroundColor: Colors.grey[350],
+              animation: true,
+              animateFromLastPercent: true,
               barRadius: const Radius.circular(15),
               center: Text(
                 "${(_progress / _maxProgess * 100).toStringAsFixed(0)}%",
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
               ),
             ),
           ),
@@ -126,7 +127,7 @@ void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
-      scaffoldBackgroundColor: Colors.lightGreenAccent,
+      scaffoldBackgroundColor: Colors.limeAccent,
       primaryColor: Colors.white,
     ),
     home: const Scaffold(
@@ -134,15 +135,15 @@ void main() {
         padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
         child: Column(
           children: [
-            ProgreeBar(progressTitle: 'Flutter'),
+            ProgressBar(progressTitle: 'Flutter'),
             SizedBox(
               height: 20,
             ),
-            ProgreeBar(progressTitle: 'Dart'),
+            ProgressBar(progressTitle: 'Dart'),
             SizedBox(
               height: 20,
             ),
-            ProgreeBar(progressTitle: 'React'),
+            ProgressBar(progressTitle: 'React'),
             SizedBox(
               height: 20,
             ),
