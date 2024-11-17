@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_workspace/WEEK%206/W6-S1/EXERCISE-2/data/profile_data.dart';
+import 'package:flutter_workspace/WEEK%206/W6-S1/EXERCISE-2/model/profile_tile_model.dart';
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ProfileApp(),
+    home: ProfileApp(
+      userProfile: ronanProfile,
+    ),
   ));
 }
 
 const Color mainColor = Color(0xff5E9FCD);
 
 class ProfileApp extends StatelessWidget {
-  const ProfileApp({super.key});
+  final ProfileData userProfile;
+  const ProfileApp({super.key, required this.userProfile});
 
   @override
   Widget build(BuildContext context) {
@@ -24,44 +29,41 @@ class ProfileApp extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: 40),
-            CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage(
-                  'assets/w5-s2/aang.png'), 
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Ronan OGOR',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: mainColor,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 40),
+              CircleAvatar(
+                radius: 60,
+                backgroundImage: AssetImage(userProfile.avatarUrl),
               ),
-            ),
-            Text(
-              'Flutter Developer',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
+              const SizedBox(height: 20),
+              Text(
+                userProfile.name,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: mainColor,
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            ProfileTile(
-              icon: Icons.phone,
-              title: "Phone Number",
-              data: "+123 456 7890",
-            ),
-             ProfileTile(
-              icon: Icons.location_on,
-              title: "Address",
-              data: "Cambodia",
-            ),
-          ],
+              Text(
+                userProfile.position,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 20),
+              for (var tile in userProfile.tiles)
+                ProfileTile(
+                  icon: tile.icon,
+                  title: tile.title,
+                  data: tile.value,
+                ),
+            ],
+          ),
         ),
       ),
     );
