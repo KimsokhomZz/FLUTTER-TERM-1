@@ -1,0 +1,7 @@
+Q1 - In what scenarios might one approach be more advantageous than another?
+(in terms of readability, maintainability, performance, etc.)?
+
+__ANSWER__: In terms of readability, maintainability, performance, etc..., One approach which more advantageous than another is
+**Using a Dedicated Function** 
+because this approach separate the logic of generating widgets into a dedicated function that improve readability, especially when
+the widget creation logic is more complex. 
