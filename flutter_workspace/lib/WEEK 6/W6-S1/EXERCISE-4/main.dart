@@ -3,7 +3,7 @@ import 'package:flutter_workspace/WEEK%206/W6-S1/EXERCISE-4/jokes.dart';
 
 Color appColor = Colors.green[300] as Color;
 
-void main() => runApp(MaterialApp(home: MyApp()));
+void main() => runApp(const MaterialApp(home: MyApp()));
 
 //MyApp
 class MyApp extends StatefulWidget {
