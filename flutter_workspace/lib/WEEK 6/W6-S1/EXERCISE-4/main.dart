@@ -1,38 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_workspace/WEEK%206/W6-S1/EXERCISE-4/jokes.dart';
 
 Color appColor = Colors.green[300] as Color;
 
-void main() => runApp(MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: appColor,
-          title: const Text("Favorite Jokes"),
-        ),
-        body: const Column(
-          children: [FavoriteCard(), FavoriteCard(), FavoriteCard()],
-        ),
-      ),
-    ));
+void main() => runApp(MaterialApp(home: MyApp()));
 
-class FavoriteCard extends StatefulWidget {
-  const FavoriteCard({
-    super.key,
-  });
+//MyApp
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
   @override
-  State<FavoriteCard> createState() => _FavoriteCardState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class _FavoriteCardState extends State<FavoriteCard> {
-  bool _isFavorite = false;
+class _MyAppState extends State<MyApp> {
+  int? _favoriteIndex;
 
-  void onFavoriteClick() {
+  void setFavorite(int index) {
     setState(() {
-      _isFavorite = !_isFavorite;
+      _favoriteIndex = index;
     });
   }
- 
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: appColor,
+        title: const Text("Favorite Jokes"),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: List.generate(jokes.length, (index) {
+            return JokeCard(
+              title: jokes[index].title,
+              description: jokes[index].description,
+              isFavorite: _favoriteIndex == index,
+              onFavoriteClick: () => setFavorite(index),
+            );
+          }),
+        ),
+      ),
+    );
+  }
+}
+
+//Joke Card Widget
+class JokeCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final bool isFavorite;
+  final VoidCallback onFavoriteClick;
+
+  //constructor
+  const JokeCard(
+      {super.key,
+      required this.title,
+      required this.description,
+      required this.isFavorite,
+      required this.onFavoriteClick});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,26 +73,26 @@ class _FavoriteCardState extends State<FavoriteCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-           Expanded(
+          Expanded(
             flex: 7,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'title',
-                  style: TextStyle(
-                      color: appColor, fontWeight: FontWeight.w800),
+                  title,
+                  style:
+                      TextStyle(color: appColor, fontWeight: FontWeight.w800),
                 ),
                 const SizedBox(height: 10.0),
-                const Text('description')
+                Text(description),
               ],
             ),
           ),
           IconButton(
               onPressed: onFavoriteClick,
               icon: Icon(
-                _isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: _isFavorite ? Colors.red : Colors.grey,
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? Colors.red : Colors.grey,
               ))
         ],
       ),
