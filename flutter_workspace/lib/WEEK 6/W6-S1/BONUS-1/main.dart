@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_workspace/WEEK%206/W6-S1/EXERCISE-3/screen/temperature.dart';
-import 'package:flutter_workspace/WEEK%206/W6-S1/EXERCISE-3/screen/welcome.dart';
+import 'package:flutter_workspace/WEEK%206/W6-S1/BONUS-1/screen/temperature.dart';
+import 'package:flutter_workspace/WEEK%206/W6-S1/BONUS-1/screen/welcome.dart';
 
 //App Widget
 class TemperatureApp extends StatefulWidget {
@@ -42,7 +42,7 @@ class _TemperatureAppState extends State<TemperatureApp> {
                   ? Welcome(
                       currentScreen: currentScreen,
                     )
-                  : Temperature(),
+                  : const Temperature(),
             ),
           ),
         ),

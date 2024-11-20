@@ -77,11 +77,19 @@ class _TemperatureState extends State<Temperature> {
           const Text("Temperature in Degrees:"),
           const SizedBox(height: 10),
           TextField(
+              controller: _inputController,
               decoration: inputDecoration,
               style: const TextStyle(color: Colors.white)),
           const SizedBox(height: 30),
-          TextButton(
-              onPressed: convertTemperature, child: const Text('Convert')),
+          ElevatedButton(
+              onPressed: convertTemperature,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff16C062),
+                foregroundColor: Colors.white,
+              ),
+              child: const Text(
+                'Convert',
+              )),
           const SizedBox(height: 30),
           const Text("Temperature in Fahrenheit:"),
           const SizedBox(height: 10),
