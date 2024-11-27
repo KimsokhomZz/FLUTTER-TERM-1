@@ -12,6 +12,7 @@ enum QuizState { notstarted, started, finished }
 
 class QuizApp extends StatefulWidget {
   final Quiz quiz;
+
   const QuizApp({super.key, required this.quiz});
 
   @override
@@ -20,37 +21,50 @@ class QuizApp extends StatefulWidget {
 
 class _QuizAppState extends State<QuizApp> {
   QuizState currentState = QuizState.notstarted;
-  final Submission submission = Submission(answers: {});
+  int currentQuestionIndex = 0;
+  final Submission submission = Submission();
+
+  //manage state
+  void startQuiz() {
+    setState(() {
+      currentState = QuizState.started;
+      currentQuestionIndex = 0;
+      submission.removeAnswers();
+    });
+  }
+
+  void answerQuestion(String answer) {
+    final question = widget.quiz.questions[currentQuestionIndex];
+    submission.addAnswer(question, answer);
+
+    if (currentQuestionIndex == widget.quiz.questions.length - 1) {
+      setState(() {
+        currentState = QuizState.finished;
+      });
+    } else {
+      setState(() {
+        currentQuestionIndex++;
+      });
+    }
+  }
+
 
   //manage screen
   Widget _buildWidgetBasedOnScreen(QuizState currentState) {
     switch (currentState) {
       case QuizState.notstarted:
         return WelcomeScreen(
-          quizTitle: 'Crazy Quiz',
-          onStart: () {
-            setState(() {
-              currentState = QuizState.started;
-            });
-          },
+          quizTitle: widget.quiz.title,
+          onStart: startQuiz,
         );
       case QuizState.started:
         return QuestionScreen(
-          onTap: () {
-            setState(() {
-              currentState = QuizState.finished;
-            });
-          },
-          question: widget.quiz.questions,
+          onTap: answerQuestion,
+          question: widget.quiz.questions[currentQuestionIndex],
         );
       case QuizState.finished:
         return ResultScreen(
-          onRestart: () {
-            setState(() {
-              submission.addAnswer(widget.quiz.questions[0], "user's answer");
-              currentState = QuizState.notstarted;
-            });
-          },
+          onRestart: startQuiz,
           submission: submission,
           quiz: widget.quiz,
         );

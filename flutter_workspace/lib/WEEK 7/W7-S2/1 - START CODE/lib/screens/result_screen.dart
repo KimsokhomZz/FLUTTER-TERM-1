@@ -14,6 +14,22 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Result Screen");
+    final score = submission.getScore();
+    final total = quiz.questions.length;
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Your Score $score / $total',
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          ElevatedButton(
+            onPressed: onRestart,
+            child: const Text('Restart Quiz'),
+          ),
+        ],
+      ),
+    );
   }
 }

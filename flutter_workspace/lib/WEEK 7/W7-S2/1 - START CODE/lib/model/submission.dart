@@ -10,29 +10,26 @@ class Answer {
 }
 
 class Submission {
-  final Map<Question, Answer> answers;
-  const Submission({required this.answers});
+  final Map<Question, Answer> _answers = {};
+  // const Submission({required this._answers});
 
   int getScore() {
     int score = 0;
-    for (var answer in answers.values) {
+    for (var answer in _answers.values) {
       answer.isCorrect() ? score++ : score = score;
     }
     return score;
   }
 
   Answer? getAnswerFor(Question question) {
-    return answers[question];
+    return _answers[question];
   }
 
   void addAnswer(Question question, String answer) {
-    answers[question] = Answer(questionAnswer: answer, question: question);
+    _answers[question] = Answer(questionAnswer: answer, question: question);
   }
 
   void removeAnswers() {
-    answers.clear();
+    _answers.clear();
   }
 }
-
-
-//Q2 – Test the model using a dedicated test file???
