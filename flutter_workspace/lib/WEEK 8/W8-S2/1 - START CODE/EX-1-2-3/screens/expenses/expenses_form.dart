@@ -114,7 +114,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
           TextField(
             controller: _titleController,
             maxLength: 50,
-            
             textInputAction: TextInputAction.next,
             decoration: const InputDecoration(
               labelText: 'Title',
