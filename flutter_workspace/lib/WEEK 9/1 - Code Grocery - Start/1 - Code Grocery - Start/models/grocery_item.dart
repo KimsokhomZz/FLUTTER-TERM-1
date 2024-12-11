@@ -14,8 +14,7 @@ class GroceryItem {
     required this.category,
   }) ;
 
-
-  // named - builid new : id = uuid.v4() ### Maybe not need
+  // named - builid new : id = uuid.v4() ### Maybe no need
   
   final String id;
   final String name;
