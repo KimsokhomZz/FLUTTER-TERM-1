@@ -48,12 +48,16 @@ class _NewItemState extends State<NewItem> {
   void _onAdd() {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState!.save();
+      final String id = widget.initialItem?.id ?? uuid.v4();
       //print save data to the console
       print(
-          'Grocery Item Saved: Name=$_name, Quantity=$_quantity, Category=${_selectedCategory?.label}');
+          'Grocery Item Saved: id=$id Name=$_name, Quantity=$_quantity, Category=${_selectedCategory?.label}');
       //create new item
       GroceryItem groceryItem = GroceryItem(
-          name: _name, quantity: _quantity, category: _selectedCategory!);
+          id: id,
+          name: _name,
+          quantity: _quantity,
+          category: _selectedCategory!);
       //close form & pass added item to grocery_list screen
       Navigator.pop(context, groceryItem);
       //confirm message
