@@ -3,7 +3,7 @@ import 'package:flutter_workspace/WEEK%209/1%20-%20Code%20Grocery%20-%20Start/1%
 import 'package:flutter_workspace/WEEK%209/1%20-%20Code%20Grocery%20-%20Start/1%20-%20Code%20Grocery%20-%20Start/widgets/new_item.dart';
 import '../data/dummy_items.dart';
 
-enum Mode { editing, creating }
+enum Mode { editing, creating, normal, selection }
 
 class GroceryList extends StatefulWidget {
   const GroceryList({super.key});
@@ -13,6 +13,39 @@ class GroceryList extends StatefulWidget {
 }
 
 class _GroceryListState extends State<GroceryList> {
+  //normal mode and selection mode handle
+  Mode _currentMode = Mode.normal;
+  final Set<GroceryItem> _selectedItems = {};
+
+  //exit selection mode
+  void _exitSelectionMode() {
+    setState(() {
+      _currentMode = Mode.normal;
+      _selectedItems.clear();
+    });
+  }
+
+  //remove item in the selection mode
+  void _removeSelectedItem() {
+    setState(() {
+      dummyGroceryItems.removeWhere((item) => _selectedItems.contains(item));
+      _selectedItems.clear();
+      _currentMode = Mode.normal;
+    });
+  }
+
+  //toggling checkBox
+  void checkBoxToggle(bool value, GroceryItem item) {
+    setState(() {
+      if (value == true) {
+        _selectedItems.add(item); //if the item have been checked
+      } else {
+        _selectedItems.remove(item); //if the item have been unchecked
+      }
+    });
+  }
+
+  //add new item and edit existing item handler
   Future<void> _navigateToAddItemScreen({GroceryItem? item}) async {
     final groceryItem = await Navigator.push<GroceryItem>(
       context,
@@ -49,9 +82,23 @@ class _GroceryListState extends State<GroceryList> {
             itemBuilder: (context, index) {
               //save each groceryItem into "item"
               final GroceryItem item = dummyGroceryItems[index];
+              final bool isSelected = _selectedItems.contains(item);
               return GroceryTile(
                 groceryItem: item,
-                tapToEdit: () => _navigateToAddItemScreen(item: item),  //edit existing item
+                isChecked: isSelected, //check groceryTile is selected
+                tapToEdit: () {
+                  if (_currentMode == Mode.normal) {
+                    _navigateToAddItemScreen(item: item); //edit existing item
+                  }
+                },
+                onToggle: checkBoxToggle,
+                longPress: () {
+                  setState(() {
+                    _currentMode = Mode.selection;
+                  });
+                },
+                isInSelectionMode: _currentMode ==
+                    Mode.selection, // Pass the current mode to GroceryTile
               );
             }),
       ); // TODO
@@ -59,13 +106,32 @@ class _GroceryListState extends State<GroceryList> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Groceries'),
-        actions: [
-          IconButton(
-            onPressed: _navigateToAddItemScreen, //add new item
-            icon: const Icon(Icons.add),
-          ),
-        ],
+        title: Text(_currentMode == Mode.selection
+            ? '${_selectedItems.length} selected Item(s)'
+            : 'Your Groceries'),
+        leading: _currentMode == Mode.selection
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: _exitSelectionMode,
+              )
+            : null,
+        actions: _currentMode == Mode.selection
+            ? [
+                IconButton(
+                  onPressed: _selectedItems.isEmpty
+                      ? null
+                      : _removeSelectedItem, //delete item
+                  icon: const Icon(Icons.delete),
+                  tooltip: 'Delete selected items',
+                ),
+              ]
+            : [
+                IconButton(
+                  onPressed: _navigateToAddItemScreen, //add new item
+                  icon: const Icon(Icons.add),
+                  tooltip: 'Add new item',
+                ),
+              ],
       ),
       body: content,
     );
@@ -74,19 +140,35 @@ class _GroceryListState extends State<GroceryList> {
 
 class GroceryTile extends StatelessWidget {
   const GroceryTile(
-      {super.key, required this.groceryItem, required this.tapToEdit});
+      {super.key,
+      required this.groceryItem,
+      required this.isChecked,
+      required this.tapToEdit,
+      required this.onToggle,
+      required this.longPress,
+      required this.isInSelectionMode});
 
   final GroceryItem groceryItem;
+  final bool isChecked;
   final VoidCallback tapToEdit;
+  final void Function(bool, GroceryItem) onToggle;
+  final VoidCallback longPress;
+  final bool isInSelectionMode;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Container(
-        width: 24,
-        height: 24,
-        color: groceryItem.category.color,
-      ),
+      leading: isInSelectionMode
+          ? Checkbox(
+              value: isChecked,
+              onChanged: (value) {
+                onToggle(value ?? false, groceryItem);
+              })
+          : Container(
+              width: 24,
+              height: 24,
+              color: groceryItem.category.color,
+            ),
       title: Text(groceryItem.name),
       subtitle: Text(
         groceryItem.category.label,
@@ -94,7 +176,16 @@ class GroceryTile extends StatelessWidget {
             fontSize: 13, fontWeight: FontWeight.w300, color: Colors.grey),
       ),
       trailing: Text(groceryItem.quantity.toString()),
-      onTap: tapToEdit,
+      onTap: () {
+        if (isInSelectionMode) {
+          onToggle(!isChecked, groceryItem); //Toggle selection
+        } else {
+          tapToEdit(); //Edit item
+        }
+      },
+      onLongPress: longPress,
     );
   }
 }
+
+//ort der
